@@ -8,16 +8,15 @@ export type PollSocketOptions = {
 
 export const connectPollSocket = ({ token }: PollSocketOptions) => {
   if (socket3000) return socket3000;
-
-  socket3000 = io("http://localhost:3000/polls", {
+  socket3000 = io("http://localhost:3000/polls/join", {
     transports: ["websocket"],
-    auth: {
-      token, 
-    },
+    auth: {token},
+    
   });
 
   socket3000.on("connect", () => {
     console.log("Connected to polls namespace:", socket3000?.id);
+    socket3000!.emit("join"); 
   });
 
   socket3000.on("disconnect", () => {

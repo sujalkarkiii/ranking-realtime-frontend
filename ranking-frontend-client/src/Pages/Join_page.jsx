@@ -15,9 +15,12 @@ const Join_page = () => {
   const handleSubmit = async(e) => {
       e.preventDefault()
     console.log(pollIDRef.current.value, nameRef.current.value)
+
+
       const { accessToken, userId, poll } = await joinfunction(pollIDRef.current.value, nameRef.current.value);
       localStorage.setItem("accessToken", accessToken);
-      connectPollSocket(accessToken)
+      console.log(accessToken)
+      connectPollSocket({token:accessToken})
          navigate("/vote")
   }
 
