@@ -14,3 +14,15 @@ export const joinadminfunction = async (topicref, nameRef, votespervoter) => {
         throw error;
     }
 }
+
+export const senddata=async(people)=>{
+    try {
+        
+        const  response=await axios.post("http://localhost:3000/polls/add",{ nominees: people})
+        return response.data
+
+    } catch (error) {
+                console.error("Join failed", error);
+        throw error;
+    }
+}

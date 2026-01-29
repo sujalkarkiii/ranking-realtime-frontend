@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import { emitVote, connectPollSocket } from "../connection/backend";
 import { useNavigate } from "react-router-dom";
+import { receivedata, senddata } from "../connection/backendconnection";
+import { useParams } from "react-router-dom";
+
 
 const VotingPage = () => {
+  const { pollId } = useParams();
   const [nominee, setNominee] = useState([]);
   const navigate = useNavigate();
   let socket = null;
 
-  const loadingNomineesFromBackend = async () => {
-    return {
-      data: {
-        names: [
-          { key: 1, name: "Balen" },
-          { key: 2, name: "Kpolo" },
-        ],
-      },
-    };
-  };
 
   useEffect(() => {
+        if (!pollId) return;
     const funcloadnominee = async () => {
       try {
-        const loadNominee = await loadingNomineesFromBackend();
+        const loadNominee = await receivedata(pollId);
         setNominee(loadNominee.data.names);
       } catch (err) {
         console.error("Failed to load nominees", err);
@@ -31,7 +26,7 @@ const VotingPage = () => {
 
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      navigate("/"); 
+      navigate("/");
       return;
     }
 

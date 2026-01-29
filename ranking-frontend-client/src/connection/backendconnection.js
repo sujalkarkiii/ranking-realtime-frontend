@@ -18,7 +18,17 @@ export const joinfunction = async (pollID, name) => {
 };
 
 
-export const loadingNomineesFromBackend=await axios.get(
-  //  data: {
-  //     names: ['Balen', 'Kpolo']}
-)
+
+
+
+export const receivedata=async(pollId)=>{
+    try {
+        
+        const  response=await axios.get(`http://localhost:3000/polls/${pollId}`)
+        return response.data
+
+    } catch (error) {
+                console.error("Join failed", error);
+        throw error;
+    }
+}

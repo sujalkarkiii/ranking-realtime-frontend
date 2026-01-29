@@ -21,7 +21,7 @@ const Join_page = () => {
       localStorage.setItem("accessToken", accessToken);
       console.log(accessToken)
       connectPollSocket({token:accessToken})
-         navigate("/vote")
+         navigate("/vote/${pollId}")
   }
 
 
