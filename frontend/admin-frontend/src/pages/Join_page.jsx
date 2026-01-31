@@ -12,13 +12,13 @@ const Join_page = () => {
   
   const handleSubmit = async(e) => {
       e.preventDefault()
-    console.log(topicref.current.value, nameRef.current.value,votespervoter.current.value)
+      console.log(topicref.current.value, nameRef.current.value,votespervoter.current.value)
 
 
-      const { accessToken} = await joinadminfunction(topicref.current.value, nameRef.current.value,Number(votespervoter.current.value));
+      const {accessToken,poll} = await joinadminfunction(topicref.current.value, nameRef.current.value,Number(votespervoter.current.value));
       localStorage.setItem("accessToken", accessToken);
     //   connectPollSocket({token:accessToken})
-         navigate("/create")
+         navigate("/create",{state:{poll:poll}})
   }
 
 

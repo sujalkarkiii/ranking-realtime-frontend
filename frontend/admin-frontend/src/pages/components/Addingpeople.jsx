@@ -1,82 +1,63 @@
 import { useState } from "react"
 import { senddata } from "../../connection/backendconnection"
+import { useLocation } from "react-router-dom"
 
 const Addingpeople = () => {
-  const [people, setpeople] = useState([''])
+  const [person1, setPerson1] = useState("")
+  const [person2, setPerson2] = useState("")
+  const [person3, setPerson3] = useState("")
+  
+  const location = useLocation()
+  const poll = location.state?.poll
 
-  const onclickadd = async (e) => {
-        await senddata(people)
-          
-  }
-
-  const Addpeople = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setpeople([...people, ""])
-  }
-
-  const removePerson = (index) => {
-    const updatedPeople = people.filter((_, i) => i !== index)
-    setpeople(updatedPeople)
-  }
-
-  const handleChange = (index, value) => {
-    const updatedPeople = [...people]
-    updatedPeople[index] = value
-    setpeople(updatedPeople)
+    const people = [person1, person2, person3]
+    await senddata(poll.id, people)
   }
 
   return (
     <div className="p-6">
       <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md p-4">
-        <form>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Enter Nominee
-          </label>
-
+        <form onSubmit={handleSubmit}>
           <div className="space-y-2">
-            {people.map((person, index) => (
-              <div key={index} className="flex gap-2">
-                <input
-                  type="text"
-                  value={person}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            <input
+              type="text"
+              value={person1}
+              onChange={(e) => setPerson1(e.target.value)}
+              placeholder="Nominee 1"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
 
-                {people.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removePerson(index)}
-                    className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                  >
-                    −
-                  </button>
-                )}
-              </div>
-            ))}
+            <input
+              type="text"
+              value={person2}
+              onChange={(e) => setPerson2(e.target.value)}
+              placeholder="Nominee 2"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
+
+            <input
+              type="text"
+              value={person3}
+              onChange={(e) => setPerson3(e.target.value)}
+              placeholder="Nominee 3"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
           </div>
 
-          <div className="flex gap-2 mt-4">
-            <button
-              onClick={Addpeople}
-              className="px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-            >
-              +
-            </button>
-
-            <button
-              onClick={onclickadd}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Post
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Submit
+          </button>
         </form>
-      </div>
 
-      <p className="text-center mt-4 text-sm text-gray-500">
-        this is addingpepeople
-      </p>
+        <p>
+          Pollid={poll.id}
+        </p>
+      </div>
     </div>
   )
 }
